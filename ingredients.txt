@@ -1,0 +1,10 @@
+1,Tomate
+2,Queso Brie
+3,Cebolla
+4,Aguacate
+5,Carne picada
+6,Sobrasada
+7,Jamón
+8,Pollo
+9,Queso azul
+10,Pinchos

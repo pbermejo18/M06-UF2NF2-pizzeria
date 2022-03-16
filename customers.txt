@@ -1,0 +1,8 @@
+1,Pedro,C/Serrano,pedro@elpuig.xeill.net,617543765
+2,Pol,C/Verdi,pbermejo@elpuig.xeill.net,605499035
+3,Samu,C/Sant Jeroni,sveiga@elpuig.xeill.net,638124150
+4,Alejandro,C/Alpes,alejandro@elpuig.xeill.net,632098456
+5,Josep,C/Avenida Diagonal,jbarcelona@gmail.com,607999254
+6,Vladimir,C/Patria Rusia,vla.put@rusia.rus,640669988
+7,Paco,C/Napoles,paco@elpuig.xeill.net,698012734
+8,Joe,C/Prat,joe@gmail.com,561033794

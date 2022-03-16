@@ -1,0 +1,8 @@
+1,Carbonara,10.99
+2,Mallorquina,12.95
+3,Barbacoa,7.50
+4,Margarita,8.70
+5,Formaggio,11.50
+6,Gorgonzola,12.00
+7,Mexicana,10.00
+8,Pinchos,8.75
