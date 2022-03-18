@@ -21,7 +21,8 @@ public class Order implements Serializable {
     @JoinColumn(name="idcustomer")
     public Entities.Customer customer;
 
-    @OneToMany(mappedBy="order", orphanRemoval=true, cascade={CascadeType.ALL})
+    //@OneToMany(mappedBy="order", orphanRemoval=true, cascade={CascadeType.ALL})
+    @Transient
     Set<OrdersDetail> ordersdetails = new HashSet<>();
 
 

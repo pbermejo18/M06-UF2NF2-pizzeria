@@ -108,12 +108,16 @@ public class FileAccessor {
             idpizza = Integer.parseInt(str.nextToken());
             idorder = Integer.parseInt(str.nextToken());
 
-            OrdersDetail od = new OrdersDetail(quantity, priceeach, llistaPizzes.get(idpizza-1),llistaCustomers.get(idorder - 1));
+
             // llistaCustomers.get(idcustomer-1).addOrder(o);
             for (int i = 0; i < llistaCustomers.size(); i++) {
                 for (int j = 0; j < llistaCustomers.get(i).getOrders().size(); j++)
                     if(llistaCustomers.get(i).getOrder(j).getIdOrder() == idorder)
-                        llistaCustomers.get(i).getOrder(j).getOrdersdetails().add(od);
+                        {
+                            OrdersDetail od = new OrdersDetail(quantity, priceeach, llistaPizzes.get(idpizza-1),llistaCustomers.get(i).getOrder(j));
+                            llistaCustomers.get(i).getOrder(j).getOrdersdetails().add(od);
+
+                        }
             }
         }
         br.close();

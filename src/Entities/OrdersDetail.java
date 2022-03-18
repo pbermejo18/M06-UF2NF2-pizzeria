@@ -14,20 +14,22 @@ public class OrdersDetail implements Serializable {
     @Column(name = "priceeach")
     float priceEach;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idPizza")
+    //@ManyToOne(fetch=FetchType.LAZY)
+    //@JoinColumn(name="idpizza")
+    @Transient
     Pizza pizza;
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idOrder")
-    Customer order;
+    //@ManyToOne(fetch=FetchType.LAZY)
+    //@JoinColumn(name="idorder")
+    @Transient
+    Order order;
 
-    public OrdersDetail(int quantity, float priceEach, Pizza pizza, Customer order) {
+    public OrdersDetail(int quantity, float priceEach, Pizza pizza, Order order) {
         super();
         this.quantity = quantity;
         this.priceEach = priceEach;
         this.pizza = pizza;
         this.order = order;
-        detailsId = new DetailsId(pizza.getIdPizza(), order.getOrders().size());
+        detailsId = new DetailsId(pizza.getIdPizza(), order.getIdOrder());
     }
 
     public OrdersDetail(){
@@ -43,8 +45,8 @@ public class OrdersDetail implements Serializable {
     public void setIdPizza(Entities.Pizza pizza) { this.pizza = pizza; this.detailsId.setIdpizza(pizza.getIdPizza());}
     public Entities.Pizza getIdPizza() { return pizza; }
 
-    public void setIdOrder(Entities.Customer order) { this.order = order; this.detailsId.setIdorder(order.getOrders().size()); }
-    public Entities.Customer getIdOrder() { return order; }
+    public void setIdOrder(Entities.Order order) { this.order = order; this.detailsId.setIdorder(order.getIdOrder()); }
+    public Entities.Order getIdOrder() { return order; }
 
     @Override
     public String toString() {
