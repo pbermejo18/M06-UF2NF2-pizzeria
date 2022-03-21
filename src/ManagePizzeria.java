@@ -67,12 +67,14 @@ public class ManagePizzeria {
         }
         MP.updateCustomer(6,"Jose","C/Prat","jose@gmail.com","670899478");
         MP.deleteCustomer(3);
-        //MP.updateOrder(7,"2010-06-13",4);
+
+        java.sql.Date date = java.sql.Date.valueOf("3310-06-13");
+        MP.updateOrder(7,date,fa.llistaCustomers.get(4));
         MP.deleteOrder(9);
 
+        MP.updateOrdersDetails(fa.llistaPizzes.get(4), fa.llistaCustomers.get(0).getOrder(0),50,250.14f);
         MP.deleteOrdersDetails(fa.llistaPizzes.get(0), fa.llistaCustomers.get(fa.llistaCustomers.size()-1).getOrder(0));
         fa.printCustomers();
-
     }
 
     public void addIngredients(Ingredient ingredient) {
@@ -206,12 +208,12 @@ public class ManagePizzeria {
         em.getTransaction().commit();
         em.close();
     }
-    public void updateOrdersDetails(Integer OrdersDetailID, Date orderdate, Customer idcustomer) {
+    public void updateOrdersDetails(Pizza pizza,Order order, int quantity, float priceEach) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        OrdersDetail ordersDetail = (OrdersDetail) em.find(OrdersDetail.class, OrdersDetailID);
-        //ordersDetail.setOrderDate(orderdate);
-        //ordersDetail.setIdCustomer(idcustomer);
+        OrdersDetail ordersDetail = (OrdersDetail) em.find(OrdersDetail.class, new OrdersDetailsId(pizza.getIdPizza(), order.getIdOrder()));
+        ordersDetail.setQuantity(quantity);
+        ordersDetail.setPriceEach(priceEach);
         em.merge(ordersDetail);
         em.getTransaction().commit();
         em.close();
