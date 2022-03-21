@@ -7,7 +7,7 @@ import java.io.Serializable;
 @Table(name = "ordersdetails")
 public class OrdersDetail implements Serializable {
     @EmbeddedId
-    private DetailsId detailsId;
+    private OrdersDetailsId detailsId;
 
     @Column(name = "quantity")
     int quantity;
@@ -29,7 +29,7 @@ public class OrdersDetail implements Serializable {
         this.priceEach = priceEach;
         this.pizza = pizza;
         this.order = order;
-        detailsId = new DetailsId(pizza.getIdPizza(), order.getIdOrder());
+        detailsId = new OrdersDetailsId(pizza.getIdPizza(), order.getIdOrder());
     }
 
     public OrdersDetail(){
@@ -56,27 +56,4 @@ public class OrdersDetail implements Serializable {
                 ", pizza=" + pizza +
                 '}';
     }
-}
-
-@Embeddable
-class DetailsId implements Serializable {
-    private int idpizza;
-    private int idorder;
-
-    // default constructor
-    public DetailsId(int idpizza, int idorder) {
-        this.idpizza = idpizza;
-        this.idorder = idorder;
-    }
-
-    // getters, equals() and hashCode() methods
-    public void setIdpizza(int idpizza) {
-        this.idpizza = idpizza;
-    }
-    public int getIdpizza() {
-        return idpizza;
-    }
-
-    public void setIdorder(int idorder) { this.idorder = idorder; }
-    public int getIdorder() { return idorder; }
 }

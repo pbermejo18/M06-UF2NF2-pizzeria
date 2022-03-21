@@ -48,6 +48,7 @@ public class ManagePizzeria {
         MP.deleteContains(fa.llistaIngredients.get(0),fa.llistaPizzes.get(0));
         MP.deleteIngredients(4);
         MP.deletePizzas(4);
+
         // Leer y printar customers + orders + ordersdetails
         fa.readCustomersFile("customers.txt");
         fa.readOrdersFile("orders.txt");
@@ -65,7 +66,11 @@ public class ManagePizzeria {
             }
         }
         MP.updateCustomer(6,"Jose","C/Prat","jose@gmail.com","670899478");
+        MP.deleteCustomer(3);
         //MP.updateOrder(7,"2010-06-13",4);
+        MP.deleteOrder(9);
+
+        MP.deleteOrdersDetails(fa.llistaPizzes.get(0), fa.llistaCustomers.get(fa.llistaCustomers.size()-1).getOrder(0));
         fa.printCustomers();
 
     }
@@ -198,6 +203,24 @@ public class ManagePizzeria {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(ordersDetail);
+        em.getTransaction().commit();
+        em.close();
+    }
+    public void updateOrdersDetails(Integer OrdersDetailID, Date orderdate, Customer idcustomer) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        OrdersDetail ordersDetail = (OrdersDetail) em.find(OrdersDetail.class, OrdersDetailID);
+        //ordersDetail.setOrderDate(orderdate);
+        //ordersDetail.setIdCustomer(idcustomer);
+        em.merge(ordersDetail);
+        em.getTransaction().commit();
+        em.close();
+    }
+    public void deleteOrdersDetails(Pizza pizza,Order order) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        OrdersDetail ordersDetail = (OrdersDetail) em.find(OrdersDetail.class, new OrdersDetailsId(pizza.getIdPizza(), order.getIdOrder()));
+        em.remove(ordersDetail);
         em.getTransaction().commit();
         em.close();
     }
