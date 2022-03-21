@@ -5,6 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Date;
 
 public class ManagePizzeria {
     private static EntityManagerFactory emf;
@@ -27,7 +28,7 @@ public class ManagePizzeria {
             MP.addIngredients(fa.llistaIngredients.get(i));
         }
         MP.updateIngredients(9,"Queso de cabra");
-        MP.deleteIngredients(1);
+        //MP.deleteIngredients(1);
 
         fa.readPizzasFile("pizzas.txt");
         for (int i = 0; i < fa.llistaPizzes.size(); i++) {
@@ -35,6 +36,7 @@ public class ManagePizzeria {
             MP.addPizzas(fa.llistaPizzes.get(i));
         }
         fa.printPizzas();
+        MP.updatePizzas(7,"Mediterrania", 12.05f);
 
         fa.readContainsFile("contains.txt");
         for (int i = 0; i < fa.llistaContains.size(); i++) {
@@ -42,7 +44,10 @@ public class ManagePizzeria {
             MP.addContains(fa.llistaContains.get(i));
         }
         fa.printContains();
-
+        MP.updateContains(fa.llistaIngredients.get(0),fa.llistaPizzes.get(0),fa.llistaIngredients.get(4),fa.llistaPizzes.get(5));
+        MP.deleteContains(fa.llistaIngredients.get(0),fa.llistaPizzes.get(0));
+        MP.deleteIngredients(4);
+        MP.deletePizzas(4);
         // Leer y printar customers + orders + ordersdetails
         fa.readCustomersFile("customers.txt");
         fa.readOrdersFile("orders.txt");
@@ -59,7 +64,8 @@ public class ManagePizzeria {
                 }
             }
         }
-
+        MP.updateCustomer(6,"Jose","C/Prat","jose@gmail.com","670899478");
+        //MP.updateOrder(7,"2010-06-13",4);
         fa.printCustomers();
 
     }
@@ -96,6 +102,24 @@ public class ManagePizzeria {
         em.getTransaction().commit();
         em.close();
     }
+    public void updatePizzas(Integer PizzaID, String name, float price) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        Pizza pizza = (Pizza) em.find(Pizza.class, PizzaID);
+        pizza.setName(name);
+        pizza.setPrice(price);
+        em.merge(pizza);
+        em.getTransaction().commit();
+        em.close();
+    }
+    public void deletePizzas(Integer PizzaID) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        Pizza pizza = (Pizza) em.find(Pizza.class, PizzaID);
+        em.remove(pizza);
+        em.getTransaction().commit();
+        em.close();
+    }
 
     public void addContains(Contains contains) {
         EntityManager em = emf.createEntityManager();
@@ -104,10 +128,68 @@ public class ManagePizzeria {
         em.getTransaction().commit();
         em.close();
     }
+    public void updateContains(Ingredient ingredient, Pizza pizza, Ingredient ingredient2, Pizza pizza2) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        Contains contains = (Contains) em.find(Contains.class, new ContainsId(ingredient.getIdIngredient(), pizza.getIdPizza()));
+        contains.setIngredient(ingredient2);
+        contains.setPizza(pizza2);
+        em.merge(contains);
+        em.getTransaction().commit();
+        em.close();
+    }
+    public void deleteContains(Ingredient ingredient, Pizza pizza) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        Contains contains = (Contains) em.find(Contains.class, new ContainsId(ingredient.getIdIngredient(), pizza.getIdPizza()));
+        em.remove(contains);
+        em.getTransaction().commit();
+        em.close();
+    }
+
     public void addCustomer(Customer customer) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(customer);
+        em.getTransaction().commit();
+        em.close();
+    }
+    public void updateCustomer(Integer CustomerID, String name, String address, String email, String phone) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        Customer customer = (Customer) em.find(Customer.class, CustomerID);
+        customer.setName(name);
+        customer.setAddress(address);
+        customer.setEmail(email);
+        customer.setPhone(phone);
+        em.merge(customer);
+        em.getTransaction().commit();
+        em.close();
+    }
+    public void deleteCustomer(Integer CustomerID) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        Customer customer = (Customer) em.find(Customer.class, CustomerID);
+        em.remove(customer);
+        em.getTransaction().commit();
+        em.close();
+    }
+
+    public void updateOrder(Integer OrderID, Date orderdate, Customer idcustomer) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        Order order = (Order) em.find(Order.class, OrderID);
+        order.setOrderDate(orderdate);
+        order.setIdCustomer(idcustomer);
+        em.merge(order);
+        em.getTransaction().commit();
+        em.close();
+    }
+    public void deleteOrder(Integer OrderID) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        Order order = (Order) em.find(Order.class, OrderID);
+        em.remove(order);
         em.getTransaction().commit();
         em.close();
     }
@@ -119,6 +201,4 @@ public class ManagePizzeria {
         em.getTransaction().commit();
         em.close();
     }
-
-
 }
